@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lihat Superhero</title>
+
+    <!-- Leaflet CSS & JS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+    />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+
+    <!-- Bootstrap CSS & JS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      #map {
+        height: calc(100vh - 60px);
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Lihat Superhero</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </nav>
+
+    <!-- Map Container -->
+    <div id="map"></div>
+
+    <!-- Inject data dari Django -->
+    <script>
+      var SemuaHero = {{ SemuaHero|safe }};
+      console.log(SemuaHero);
+    </script>
+
+    <!-- Script Map -->
+    <script>
+      // Inisialisasi peta
+      var map = L.map("map", {
+        center: [-7.76223, 110.38949],
+        zoom: 14,
+      });
+
+      // Basemap
+      var esri = L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        {
+          attribution:
+            "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, etc.",
+        }
+      ).addTo(map);
+
+      // Tambahkan marker dari data
+      try {
+        var layerGroup = L.layerGroup().addTo(map);
+
+        for (var i = 0; i < SemuaHero.length; i++) {
+          var marker = L.marker([
+            SemuaHero[i].lat,
+            SemuaHero[i].long,
+          ]).bindPopup(
+            "<b>" +
+              SemuaHero[i].nama +
+              "</b><br>Deskripsi: " +
+              SemuaHero[i].deskripsi
+          );
+          layerGroup.addLayer(marker);
+        }
+      } catch (error) {
+        console.error("Gagal memuat data:", error);
+      }
+    </script>
+  </body>
+</html>
