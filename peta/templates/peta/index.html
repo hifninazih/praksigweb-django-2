@@ -56,12 +56,6 @@
     <!-- Map Container -->
     <div id="map"></div>
 
-    <!-- Inject data dari Django -->
-    <script>
-      var SemuaHero = {{ SemuaHero|safe }};
-      console.log(SemuaHero);
-    </script>
-
     <!-- Script Map -->
     <script>
       // Inisialisasi peta
@@ -79,6 +73,9 @@
         }
       ).addTo(map);
 
+      var SemuaHero = {{ SemuaHero|safe }};
+      console.log(SemuaHero);
+
       // Tambahkan marker dari data
       try {
         var layerGroup = L.layerGroup().addTo(map);
@@ -89,9 +86,12 @@
             SemuaHero[i].long,
           ]).bindPopup(
             "<b>" +
-              SemuaHero[i].nama +
-              "</b><br>Deskripsi: " +
-              SemuaHero[i].deskripsi
+            SemuaHero[i].nama +
+            "</b><br>Deskripsi: " +
+            SemuaHero[i].deskripsi +
+            "<br><a href='/peta/delete/" + SemuaHero[i].id + "' >Hapus</a>" +
+            "<br><a href='/peta/update/" + SemuaHero[i].id + "' >Update</a>"
+
           );
           layerGroup.addLayer(marker);
         }

@@ -1,7 +1,7 @@
 <html>
   <!DOCTYPE html>
   <head>
-    <title>Buat Superhero Baru</title>
+    <title>Update Superhero</title>
     <!-- memanggil bootstrap -->
     <link
       rel="stylesheet"
@@ -31,7 +31,7 @@ ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
   </head>
   <body>
     <div class="container" style="margin-top: 200px">
-      <h2>Tambah Superhero ke Basisdata</h2>
+      <h2>Update Superhero</h2>
       {% if messages %}
       <ul class="messages">
         {% for message in messages %}
@@ -39,16 +39,16 @@ ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         {% endfor %}
       </ul>
       {% endif %}
-      <form method="POST" action="{% url 'simpan' %}">
+      <form method="POST" action="{% url 'simpan_update_superhero' hero.id %}">
         {% csrf_token %}
         <div class="form-group">
           <label>Nama Superhero</label>
           <input
             type="text"
             class="form-control"
-            id="nama"
             name="nama"
-            placeholder="Nama Superhero Baru"
+            value="{{ hero.nama }}"
+            placeholder="Nama Superhero"
           />
         </div>
         <div class="form-group">
@@ -56,8 +56,8 @@ ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
           <input
             type="text"
             class="form-control"
-            id="lat"
             name="lat"
+            value="{{ hero.lat }}"
             placeholder="Latitude"
           />
         </div>
@@ -66,8 +66,8 @@ ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
           <input
             type="text"
             class="form-control"
-            id="long"
             name="long"
+            value="{{ hero.long }}"
             placeholder="Longitude"
           />
         </div>
@@ -76,8 +76,8 @@ ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
           <input
             type="text"
             class="form-control"
-            id="asosiasi"
             name="asosiasi"
+            value="{{ hero.asosiasi }}"
             placeholder="Asosiasi"
           />
         </div>
@@ -86,14 +86,12 @@ ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
           <input
             type="text"
             class="form-control"
-            id="deskripsi"
             name="deskripsi"
+            value="{{ hero.deskripsi }}"
             placeholder="Deskripsi"
           />
         </div>
-        <button type="submit" class="btn btn-primary">
-          Tambahkan Superhero
-        </button>
+        <button type="submit" class="btn btn-primary">Update Superhero</button>
       </form>
     </div>
   </body>
